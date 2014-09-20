@@ -1,5 +1,5 @@
 Name:          jackson-dataformat-yaml
-Version:       2.4.1
+Version:       2.4.2
 Release:       1%{?dist}
 Summary:       Jackson module to add YAML back-end (parser/generator adapters)
 License:       ASL 2.0
@@ -56,6 +56,9 @@ sed -i 's/\r//' LICENSE NOTICE LICENSE-2.0.txt
 %doc LICENSE LICENSE-2.0.txt NOTICE
 
 %changelog
+* Sat Sep 20 2014 gil cattaneo <puntogil@libero.it> 2.4.2-1
+- update to 2.4.2
+
 * Fri Jul 04 2014 gil cattaneo <puntogil@libero.it> 2.4.1-1
 - update to 2.4.1
 
