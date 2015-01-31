@@ -1,12 +1,14 @@
 Name:          jackson-dataformat-yaml
-Version:       2.4.2
+Version:       2.5.0
 Release:       1%{?dist}
 Summary:       Jackson module to add YAML back-end (parser/generator adapters)
 License:       ASL 2.0
 URL:           http://wiki.fasterxml.com/JacksonExtensionYAML
 Source0:       https://github.com/FasterXML/jackson-dataformat-yaml/archive/%{name}-%{version}.tar.gz
 Source1:       http://www.apache.org/licenses/LICENSE-2.0.txt
+
 BuildRequires: mvn(com.fasterxml.jackson.core:jackson-core)
+BuildRequires: mvn(com.fasterxml.jackson.core:jackson-databind)
 %if %{?fedora} > 20
 BuildRequires: mvn(com.fasterxml.jackson:jackson-parent:pom:)
 %else
@@ -15,8 +17,9 @@ BuildRequires: mvn(com.fasterxml.jackson:jackson-parent)
 BuildRequires: mvn(org.yaml:snakeyaml)
 # Test deps
 BuildRequires: mvn(com.fasterxml.jackson.core:jackson-annotations)
-BuildRequires: mvn(com.fasterxml.jackson.core:jackson-databind)
 BuildRequires: mvn(junit:junit)
+BuildRequires: mvn(org.apache.felix:org.apache.felix.framework)
+BuildRequires: mvn(org.slf4j:slf4j-log4j12)
 
 BuildRequires: maven-local
 BuildRequires: mvn(com.google.code.maven-replacer-plugin:replacer)
@@ -40,22 +43,42 @@ cp -p src/main/resources/META-INF/{LICENSE,NOTICE} .
 sed -i 's/\r//' LICENSE NOTICE LICENSE-2.0.txt
 
 %pom_remove_plugin :maven-shade-plugin
+%pom_remove_plugin org.apache.servicemix.tooling:depends-maven-plugin
+
+%pom_xpath_remove "pom:properties/pom:osgi.private"
+%pom_xpath_inject "pom:properties/pom:osgi.import" "
+org.yaml.snakeyaml.*,
+com.fasterxml.jackson.databind.*,"
+
+# test deps
+# pax-exam 4.3.0
+%pom_remove_dep org.ops4j.pax.exam:pax-exam-container-native
+%pom_remove_dep org.ops4j.pax.exam:pax-exam-junit4
+%pom_remove_dep org.ops4j.pax.exam:pax-exam-link-mvn
+# pax-url 2.2.0
+%pom_remove_dep org.ops4j.pax.url:pax-url-aether
+rm -r src/test/java/com/fasterxml/jackson/dataformat/yaml/failsafe/OSGiIT.java
+
+%mvn_file : %{name}
 
 %build
 
-%mvn_file : %{name}
 %mvn_build
 
 %install
 %mvn_install
 
 %files -f .mfiles
-%doc LICENSE LICENSE-2.0.txt NOTICE README.md release-notes/*
+%doc README.md release-notes/*
+%license LICENSE LICENSE-2.0.txt NOTICE
 
 %files javadoc -f .mfiles-javadoc
-%doc LICENSE LICENSE-2.0.txt NOTICE
+%license LICENSE LICENSE-2.0.txt NOTICE
 
 %changelog
+* Sat Jan 31 2015 gil cattaneo <puntogil@libero.it> 2.5.0-1
+- update to 2.5.0
+
 * Sat Sep 20 2014 gil cattaneo <puntogil@libero.it> 2.4.2-1
 - update to 2.4.2
 
