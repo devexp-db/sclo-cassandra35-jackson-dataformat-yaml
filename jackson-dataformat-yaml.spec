@@ -23,6 +23,8 @@ BuildRequires: mvn(org.slf4j:slf4j-log4j12)
 
 BuildRequires: maven-local
 BuildRequires: mvn(com.google.code.maven-replacer-plugin:replacer)
+BuildRequires: mvn(org.apache.maven.plugins:maven-failsafe-plugin)
+
 BuildArch:     noarch
 
 %description
