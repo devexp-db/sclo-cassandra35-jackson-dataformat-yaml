@@ -1,29 +1,23 @@
 Name:          jackson-dataformat-yaml
-Version:       2.5.0
-Release:       2%{?dist}
+Version:       2.6.2
+Release:       1%{?dist}
 Summary:       Jackson module to add YAML back-end (parser/generator adapters)
 License:       ASL 2.0
 URL:           http://wiki.fasterxml.com/JacksonExtensionYAML
 Source0:       https://github.com/FasterXML/jackson-dataformat-yaml/archive/%{name}-%{version}.tar.gz
 Source1:       http://www.apache.org/licenses/LICENSE-2.0.txt
 
+BuildRequires: maven-local
+BuildRequires: mvn(com.fasterxml.jackson:jackson-parent:pom:)
+BuildRequires: mvn(com.fasterxml.jackson.core:jackson-annotations)
 BuildRequires: mvn(com.fasterxml.jackson.core:jackson-core)
 BuildRequires: mvn(com.fasterxml.jackson.core:jackson-databind)
-%if %{?fedora} > 20
-BuildRequires: mvn(com.fasterxml.jackson:jackson-parent:pom:)
-%else
-BuildRequires: mvn(com.fasterxml.jackson:jackson-parent)
-%endif
-BuildRequires: mvn(org.yaml:snakeyaml)
-# Test deps
-BuildRequires: mvn(com.fasterxml.jackson.core:jackson-annotations)
+BuildRequires: mvn(com.google.code.maven-replacer-plugin:replacer)
 BuildRequires: mvn(junit:junit)
 BuildRequires: mvn(org.apache.felix:org.apache.felix.framework)
-BuildRequires: mvn(org.slf4j:slf4j-log4j12)
-
-BuildRequires: maven-local
-BuildRequires: mvn(com.google.code.maven-replacer-plugin:replacer)
 BuildRequires: mvn(org.apache.maven.plugins:maven-failsafe-plugin)
+BuildRequires: mvn(org.slf4j:slf4j-log4j12)
+BuildRequires: mvn(org.yaml:snakeyaml) >= 1.15
 
 BuildArch:     noarch
 
@@ -68,11 +62,9 @@ org.yaml.snakeyaml.reader
 </osgi.import>"
 
 # test deps
-# pax-exam 4.3.0
 %pom_remove_dep org.ops4j.pax.exam:pax-exam-container-native
 %pom_remove_dep org.ops4j.pax.exam:pax-exam-junit4
 %pom_remove_dep org.ops4j.pax.exam:pax-exam-link-mvn
-# pax-url 2.2.0
 %pom_remove_dep org.ops4j.pax.url:pax-url-aether
 rm -r src/test/java/com/fasterxml/jackson/dataformat/yaml/failsafe/OSGiIT.java
 
@@ -93,6 +85,9 @@ rm -r src/test/java/com/fasterxml/jackson/dataformat/yaml/failsafe/OSGiIT.java
 %license LICENSE LICENSE-2.0.txt NOTICE
 
 %changelog
+* Mon Sep 28 2015 gil cattaneo <puntogil@libero.it> 2.6.2-1
+- update to 2.6.2
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.5.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
