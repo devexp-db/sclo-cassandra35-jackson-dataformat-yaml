@@ -1,6 +1,6 @@
 Name:          jackson-dataformat-yaml
 Version:       2.6.3
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Jackson module to add YAML back-end (parser/generator adapters)
 License:       ASL 2.0
 URL:           http://wiki.fasterxml.com/JacksonExtensionYAML
@@ -85,6 +85,9 @@ rm -r src/test/java/com/fasterxml/jackson/dataformat/yaml/failsafe/OSGiIT.java
 %license LICENSE LICENSE-2.0.txt NOTICE
 
 %changelog
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Sun Oct 25 2015 gil cattaneo <puntogil@libero.it> 2.6.3-1
 - update to 2.6.3
 
