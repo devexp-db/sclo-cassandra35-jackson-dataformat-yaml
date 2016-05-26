@@ -1,11 +1,10 @@
 Name:          jackson-dataformat-yaml
-Version:       2.6.3
-Release:       2%{?dist}
+Version:       2.6.6
+Release:       1%{?dist}
 Summary:       Jackson module to add YAML back-end (parser/generator adapters)
 License:       ASL 2.0
 URL:           http://wiki.fasterxml.com/JacksonExtensionYAML
 Source0:       https://github.com/FasterXML/jackson-dataformat-yaml/archive/%{name}-%{version}.tar.gz
-Source1:       http://www.apache.org/licenses/LICENSE-2.0.txt
 
 BuildRequires: maven-local
 BuildRequires: mvn(com.fasterxml.jackson:jackson-parent:pom:)
@@ -34,9 +33,8 @@ This package contains javadoc for %{name}.
 %prep
 %setup -q -n %{name}-%{name}-%{version}
 
-cp -p %{SOURCE1} .
 cp -p src/main/resources/META-INF/{LICENSE,NOTICE} .
-sed -i 's/\r//' LICENSE NOTICE LICENSE-2.0.txt
+sed -i 's/\r//' LICENSE NOTICE
 
 %pom_remove_plugin :maven-shade-plugin
 %pom_remove_plugin org.apache.servicemix.tooling:depends-maven-plugin
@@ -79,12 +77,15 @@ rm -r src/test/java/com/fasterxml/jackson/dataformat/yaml/failsafe/OSGiIT.java
 
 %files -f .mfiles
 %doc README.md release-notes/*
-%license LICENSE LICENSE-2.0.txt NOTICE
+%license LICENSE NOTICE
 
 %files javadoc -f .mfiles-javadoc
-%license LICENSE LICENSE-2.0.txt NOTICE
+%license LICENSE NOTICE
 
 %changelog
+* Thu May 26 2016 gil cattaneo <puntogil@libero.it> 2.6.6-1
+- update to 2.6.6
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
