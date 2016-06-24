@@ -1,5 +1,5 @@
 Name:          jackson-dataformat-yaml
-Version:       2.6.6
+Version:       2.6.7
 Release:       1%{?dist}
 Summary:       Jackson module to add YAML back-end (parser/generator adapters)
 License:       ASL 2.0
@@ -83,6 +83,9 @@ rm -r src/test/java/com/fasterxml/jackson/dataformat/yaml/failsafe/OSGiIT.java
 %license LICENSE NOTICE
 
 %changelog
+* Fri Jun 24 2016 gil cattaneo <puntogil@libero.it> 2.6.7-1
+- update to 2.6.7
+
 * Thu May 26 2016 gil cattaneo <puntogil@libero.it> 2.6.6-1
 - update to 2.6.6
 
