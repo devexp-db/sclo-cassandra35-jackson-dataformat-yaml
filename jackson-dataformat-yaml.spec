@@ -40,24 +40,6 @@ sed -i 's/\r//' LICENSE NOTICE
 %pom_remove_plugin org.apache.servicemix.tooling:depends-maven-plugin
 
 %pom_xpath_remove "pom:properties/pom:osgi.private"
-%pom_xpath_remove "pom:properties/pom:osgi.import"
-%pom_xpath_inject "pom:properties" "
-    <osgi.import>
-com.fasterxml.jackson.core,
-com.fasterxml.jackson.core.base,
-com.fasterxml.jackson.core.format,
-com.fasterxml.jackson.core.io,
-com.fasterxml.jackson.core.json,
-com.fasterxml.jackson.core.type,
-com.fasterxml.jackson.core.util,
-com.fasterxml.jackson.databind,
-org.yaml.snakeyaml,
-org.yaml.snakeyaml.emitter,
-org.yaml.snakeyaml.error,
-org.yaml.snakeyaml.events,
-org.yaml.snakeyaml.parser,
-org.yaml.snakeyaml.reader
-</osgi.import>"
 
 # test deps
 %pom_remove_dep org.ops4j.pax.exam:pax-exam-container-native
