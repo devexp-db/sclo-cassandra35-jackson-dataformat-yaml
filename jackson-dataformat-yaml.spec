@@ -1,22 +1,20 @@
 Name:          jackson-dataformat-yaml
 Version:       2.7.6
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Jackson module to add YAML back-end (parser/generator adapters)
 License:       ASL 2.0
 URL:           http://wiki.fasterxml.com/JacksonExtensionYAML
 Source0:       https://github.com/FasterXML/jackson-dataformat-yaml/archive/%{name}-%{version}.tar.gz
 
-BuildRequires: maven-local
-BuildRequires: mvn(com.fasterxml.jackson:jackson-parent:pom:)
-BuildRequires: mvn(com.fasterxml.jackson.core:jackson-annotations)
-BuildRequires: mvn(com.fasterxml.jackson.core:jackson-core)
-BuildRequires: mvn(com.fasterxml.jackson.core:jackson-databind)
-BuildRequires: mvn(com.google.code.maven-replacer-plugin:replacer)
-BuildRequires: mvn(junit:junit)
-BuildRequires: mvn(org.apache.felix:org.apache.felix.framework)
-BuildRequires: mvn(org.apache.maven.plugins:maven-failsafe-plugin)
-BuildRequires: mvn(org.slf4j:slf4j-log4j12)
-BuildRequires: mvn(org.yaml:snakeyaml)
+BuildRequires:  maven-local
+BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-annotations)
+BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-core)
+BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-databind)
+BuildRequires:  mvn(com.fasterxml.jackson:jackson-parent:pom:)
+BuildRequires:  mvn(com.google.code.maven-replacer-plugin:replacer)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-failsafe-plugin)
+BuildRequires:  mvn(org.slf4j:slf4j-log4j12)
+BuildRequires:  mvn(org.yaml:snakeyaml)
 
 BuildArch:     noarch
 
@@ -46,7 +44,9 @@ sed -i 's/\r//' LICENSE NOTICE
 %pom_remove_dep org.ops4j.pax.exam:pax-exam-junit4
 %pom_remove_dep org.ops4j.pax.exam:pax-exam-link-mvn
 %pom_remove_dep org.ops4j.pax.url:pax-url-aether
+%pom_remove_dep :org.apache.felix.framework
 rm -r src/test/java/com/fasterxml/jackson/dataformat/yaml/failsafe/OSGiIT.java
+
 
 %mvn_file : %{name}
 
@@ -65,6 +65,9 @@ rm -r src/test/java/com/fasterxml/jackson/dataformat/yaml/failsafe/OSGiIT.java
 %license LICENSE NOTICE
 
 %changelog
+* Mon Feb 06 2017 Michael Simacek <msimacek@redhat.com> - 2.7.6-2
+- Remove unnecessary dep on felix-framework
+
 * Mon Aug 22 2016 gil cattaneo <puntogil@libero.it> 2.7.6-1
 - update to 2.7.6
 
