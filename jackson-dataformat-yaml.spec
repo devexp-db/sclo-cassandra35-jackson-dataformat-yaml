@@ -1,39 +1,45 @@
-Name:          jackson-dataformat-yaml
-Version:       2.7.6
-Release:       2%{?dist}
-Summary:       Jackson module to add YAML back-end (parser/generator adapters)
-License:       ASL 2.0
-URL:           http://wiki.fasterxml.com/JacksonExtensionYAML
-Source0:       https://github.com/FasterXML/jackson-dataformat-yaml/archive/%{name}-%{version}.tar.gz
+%{?scl:%scl_package jackson-dataformat-yaml}
+%{!?scl:%global pkg_name %{name}}
 
-BuildRequires:  maven-local
-BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-annotations)
-BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-core)
-BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-databind)
-BuildRequires:  mvn(com.fasterxml.jackson:jackson-parent:pom:)
-BuildRequires:  mvn(com.google.code.maven-replacer-plugin:replacer)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-failsafe-plugin)
-BuildRequires:  mvn(org.slf4j:slf4j-log4j12)
-BuildRequires:  mvn(org.yaml:snakeyaml)
+Name:		%{?scl_prefix}jackson-dataformat-yaml
+Version:	2.7.6
+Release:	3%{?dist}
+Summary:	Jackson module to add YAML back-end (parser/generator adapters)
+License:	ASL 2.0
+URL:		http://wiki.fasterxml.com/JacksonExtensionYAML
+Source0:	https://github.com/FasterXML/%{pkg_name}/archive/%{pkg_name}-%{version}.tar.gz
 
-BuildArch:     noarch
+BuildRequires:	%{?scl_prefix_maven}maven-local
+BuildRequires:	%{?scl_prefix}jackson-annotations
+BuildRequires:	%{?scl_prefix}jackson-core
+BuildRequires:	%{?scl_prefix}jackson-databind
+BuildRequires:	%{?scl_prefix}jackson-parent
+BuildRequires:	%{?scl_prefix}replacer
+BuildRequires:	%{?scl_prefix_maven}maven-failsafe-plugin
+BuildRequires:	%{?scl_prefix}slf4j-log4j12
+BuildRequires:	%{?scl_prefix}snakeyaml
+BuildRequires:	%{?scl_prefix}fasterxml-oss-parent
+%{?scl:Requires: %scl_runtime}
+
+BuildArch:	noarch
 
 %description
 Support for reading and writing YAML-encoded data via Jackson
 abstractions.
 
 %package javadoc
-Summary:       Javadoc for %{name}
+Summary:	Javadoc for %{name}
 
 %description javadoc
 This package contains javadoc for %{name}.
 
 %prep
-%setup -q -n %{name}-%{name}-%{version}
+%setup -q -n %{pkg_name}-%{pkg_name}-%{version}
 
 cp -p src/main/resources/META-INF/{LICENSE,NOTICE} .
 sed -i 's/\r//' LICENSE NOTICE
 
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 %pom_remove_plugin :maven-shade-plugin
 %pom_remove_plugin org.apache.servicemix.tooling:depends-maven-plugin
 
@@ -47,15 +53,18 @@ sed -i 's/\r//' LICENSE NOTICE
 %pom_remove_dep :org.apache.felix.framework
 rm -r src/test/java/com/fasterxml/jackson/dataformat/yaml/failsafe/OSGiIT.java
 
-
-%mvn_file : %{name}
+%mvn_file : %{pkg_name}
+%{?scl:EOF}
 
 %build
-
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 %mvn_build
+%{?scl:EOF}
 
 %install
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 %mvn_install
+%{?scl:EOF}
 
 %files -f .mfiles
 %doc README.md release-notes/*
@@ -65,6 +74,9 @@ rm -r src/test/java/com/fasterxml/jackson/dataformat/yaml/failsafe/OSGiIT.java
 %license LICENSE NOTICE
 
 %changelog
+* Wed Mar 08 2017 Tomas Repik <trepik@redhat.com>
+- scl conversion
+
 * Mon Feb 06 2017 Michael Simacek <msimacek@redhat.com> - 2.7.6-2
 - Remove unnecessary dep on felix-framework
 
